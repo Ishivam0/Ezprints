@@ -1,0 +1,69 @@
+/* Header.css */
+
+/* Ensure the container takes the full width of the screen and positions itself at the top */
+.container {
+    width: 100%;
+    height: auto; /* Adjust height as needed, or set a specific height */
+    max-height: 100px;  /*Example max height to prevent it from being too tall */
+    background-color: #f8f9fa; /* Background color for the header */
+    position: fixed; /* Fixes the header at the top of the page */
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px; /* Padding for spacing inside the header */
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    justify-content: space-between; /* Space out items horizontally */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for a subtle effect */
+    z-index: 1000; /* Ensures it stays on top of other content */
+  }
+  
+  /* Style for the logo */
+  .logo {
+    height: 40px; /* Adjust size as needed */
+    /* Add additional styling if needed */
+  }
+  
+  /* Style for navigation */
+  nav {
+    display: flex;
+    align-items: center; /* Vertically centers items */
+  }
+  
+  /* Style for user section */
+  .user {
+    display: flex;
+    align-items: center; /* Vertically centers items */
+    gap: 8px; /* Space between elements */
+  }
+  
+  /* Style for the user icon container */
+  .user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; /* Background color for user icon */
+    border-radius: 50%; /* Make it a circle */
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+  }
+  
+  /* Style for the profile image */
+  .profile {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    border-radius: 50%; /* Ensure the profile picture is circular */
+  }
+  
+  /* Style for the theme image (if applicable) */
+  .theme {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+  }
+  
+  /* Style for text within the user section */
+  .font-black-500 {
+    font-weight: 500; /* Adjust weight as needed */
+    color: #333; /* Adjust color as needed */
+  }
+  

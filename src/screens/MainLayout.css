@@ -1,0 +1,4 @@
+.main {
+    margin-top: 80px; /* Add margin-top to prevent content overlay */
+    padding: 20px; /* Ensure content has padding */
+  }

@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import './login.css'; // Make sure to import your CSS file
 import logo from '../../assets/images/logo.png'
 
+
+
 const LoginForm = () => {
+  const [name, setName] = useState('')
+  const [signupEmail, setSignupEmail] = useState('')
+  const [loginEmail, setLoginEmail] = useState('')
   const [isSignup, setIsSignup] = useState(false);
 
   const handleSwitchToSignup = () => {
@@ -20,11 +25,25 @@ const LoginForm = () => {
     handleSwitchToSignup();
   };
 
+  const handleLoginSubmit=()=>{
+    console.log("Hiii",loginEmail)
+  }
+  const handleSignupSubmit=(e)=>{
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', signupEmail);
+
+    // dispatch(signupUser(formData));
+  }
+
+
   return (
-    <div className="wrapper">
+   <div className="login-container">
+     <div className="wrapper">
       <div className="title-text">
-        <div className={`title login ${!isSignup ? 'active' : ''} flex flex-col justify-center items-center`} ><
-            img style={{width:'150px',height:'150px',objectFit:'contain'}} src={logo} alt="" />
+        <div className={`title login ${!isSignup ? 'active' : ''} flex flex-col justify-center items-center`} >
+          <img style={{width:'150px',height:'150px',objectFit:'contain'}} src={logo} alt="" />
             </div>
       </div>
       <div className="form-container">
@@ -61,10 +80,10 @@ const LoginForm = () => {
         </div>
         <div className="form-inner">
           {!isSignup ? (
-            <form className="login">
+            <form className="login" onSubmit={handleLoginSubmit}>
                 
               <div className="field">
-                <input type="email" name='email' placeholder="Email Address" required />
+                <input type="email" name='email' onChange={(e)=>setLoginEmail(e.target.value)} placeholder="Email Address" required />
               </div>
               
               
@@ -77,13 +96,13 @@ const LoginForm = () => {
               </div>
             </form>
           ) : (
-            <form className="signup">
+            <form className="signup" onSubmit={handleSignupSubmit}>
                 
                  <div className="field">
-                <input type="text" name='name' placeholder="Name" required />
+                <input type="text" name='name' onChange={(e)=>setName(e.target.value)} placeholder="Name" required />
               </div>
               <div className="field">
-                <input type="email" name='email' placeholder="Email Address" required />
+                <input type="email" name='email' onChange={(e)=>setSignupEmail(e.target.value)} placeholder="Email Address" required />
               </div>
               <div className="field btn">
                 <div className="btn-layer"></div>
@@ -94,6 +113,7 @@ const LoginForm = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

@@ -5,7 +5,7 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-html,body{
+.login-container{
   display: grid;
   height: 100vh;
   width: 100vw;
@@ -196,6 +196,7 @@ form .btn input[type="submit"]{
     min-width: 80%;
   }
 }
+
   @media(max-width:550px){
     .wrapper{
       min-width: 80%;
