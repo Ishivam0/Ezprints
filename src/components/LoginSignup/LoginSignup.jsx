@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './login.css'; // Make sure to import your CSS file
 import logo from '../../assets/images/logo.png'
+import { BASE_URL } from '../../../config';
 
 
 
@@ -25,17 +26,34 @@ const LoginForm = () => {
     handleSwitchToSignup();
   };
 
-  const handleLoginSubmit=()=>{
-    console.log("Hiii",loginEmail)
-  }
-  const handleSignupSubmit=(e)=>{
-    e.preventDefault()
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', loginEmail);
+
+    fetch(`${BASE_URL}/register_login/`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  };
+
+  const handleSignupSubmit = (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', signupEmail);
 
-    // dispatch(signupUser(formData));
-  }
+    fetch(`${BASE_URL}/register_login/`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  };
 
 
   return (
