@@ -1,16 +1,16 @@
 /* Header.css */
 
 /* Ensure the container takes the full width of the screen and positions itself at the top */
-.container {
+.header-container {
     width: 100%;
     height: auto; /* Adjust height as needed, or set a specific height */
     max-height: 100px;  /*Example max height to prevent it from being too tall */
-    background-color: #f8f9fa; /* Background color for the header */
+  /* Background color for the header */
     position: fixed; /* Fixes the header at the top of the page */
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px 20px; /* Padding for spacing inside the header */
+    padding: 5px 30px; /* Padding for spacing inside the header */
     display: flex;
     align-items: center; /* Centers items vertically */
     justify-content: space-between; /* Space out items horizontally */
@@ -18,23 +18,24 @@
     z-index: 1000; /* Ensures it stays on top of other content */
   }
   
+  .right-panel{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 20%;
+  }
   /* Style for the logo */
   .logo {
-    height: 40px; /* Adjust size as needed */
+    height: 60px; /* Adjust size as needed */
     /* Add additional styling if needed */
   }
-  
-  /* Style for navigation */
-  nav {
-    display: flex;
-    align-items: center; /* Vertically centers items */
-  }
-  
   /* Style for user section */
   .user {
+    width: 65%;
     display: flex;
     align-items: center; /* Vertically centers items */
-    gap: 8px; /* Space between elements */
+    /* gap: 8px; Space between elements*/
+    justify-content: space-around;
   }
   
   /* Style for the user icon container */
@@ -44,26 +45,56 @@
     justify-content: center;
     background-color: #ffffff; /* Background color for user icon */
     border-radius: 50%; /* Make it a circle */
-    width: 40px; /* Adjust size as needed */
-    height: 40px; /* Adjust size as needed */
+    width: 28%; /* Adjust size as needed */
+     /* Adjust size as needed */
   }
   
   /* Style for the profile image */
   .profile {
-    width: 30px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
+    width: 95%; /* Adjust size as needed */
+    height: 95%; /* Adjust size as needed */
     border-radius: 50%; /* Ensure the profile picture is circular */
   }
   
   /* Style for the theme image (if applicable) */
   .theme {
-    width: 30px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
+    width: 25%; /* Adjust size as needed */
+    
   }
   
   /* Style for text within the user section */
-  .font-black-500 {
+  .text-black-500 {
     font-weight: 500; /* Adjust weight as needed */
-    color: #333; /* Adjust color as needed */
+    color: #000; /* Adjust color as needed */
+  }
+  .text-white-500{
+    font-weight: 500;
+    color: #ffffff;
+  }
+  @media(max-width:420px){
+    .text-black-500,.text-white-500{
+        font-weight: 500;
+        font-size: 14px;
+        width: auto;
+    }
+    .header-container{
+        padding: 2px 10px;
+    }
+    .right-panel{
+        width: 55%;
+        gap: 8px;
+        /* background-color: aqua; */
+    }
+    .user{
+        width: 80%;
+        justify-content: flex-end;
+        gap: 6px;
+        /* background-color: blue; */
+    }
+    .user-icon{
+        width: 27%;
+        height: 100%;
+    }
+
   }
   

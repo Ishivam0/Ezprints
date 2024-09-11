@@ -3,7 +3,7 @@ import Header from '../../components/Header/Header'
 
 const MainLayout = () => {
   return (
-   <div className='main'>
+   <div className='mainlayout'>
     <Header />
     <h1>Hello</h1>
    </div>
