@@ -31,7 +31,7 @@ const LoginForm = () => {
     const formData = new FormData();
     formData.append('email', loginEmail);
 
-    fetch(`${BASE_URL}/register_login/`, {
+    fetch(`${BASE_URL}/login/`, {
       method: 'POST',
       body: formData,
     })
@@ -46,7 +46,7 @@ const LoginForm = () => {
     formData.append('name', name);
     formData.append('email', signupEmail);
 
-    fetch(`${BASE_URL}/register_login/`, {
+    fetch(`${BASE_URL}/register/`, {
       method: 'POST',
       body: formData,
     })
