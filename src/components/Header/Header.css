@@ -6,7 +6,7 @@
     height: auto; /* Adjust height as needed, or set a specific height */
     max-height: 100px;  /*Example max height to prevent it from being too tall */
   /* Background color for the header */
-    position: fixed; /* Fixes the header at the top of the page */
+    position: sticky; /* Fixes the header at the top of the page */
     top: 0;
     left: 0;
     right: 0;
@@ -31,7 +31,7 @@
   }
   /* Style for user section */
   .user {
-    width: 65%;
+    max-width: 65%;
     display: flex;
     align-items: center; /* Vertically centers items */
     /* gap: 8px; Space between elements*/
@@ -45,6 +45,7 @@
     justify-content: center;
     background-color: #ffffff; /* Background color for user icon */
     border-radius: 50%; /* Make it a circle */
+    min-width: 40px;
     width: 28%; /* Adjust size as needed */
      /* Adjust size as needed */
   }
@@ -64,17 +65,19 @@
   
   /* Style for text within the user section */
   .text-black-500 {
-    font-weight: 500; /* Adjust weight as needed */
-    color: #000; /* Adjust color as needed */
+    font-weight: 500; 
+    color: #000; 
+    font-size: 14px;
   }
   .text-white-500{
     font-weight: 500;
     color: #ffffff;
+    font-size: 14px;
   }
-  @media(max-width:420px){
-    .text-black-500,.text-white-500{
+  /* @media(max-width:420px){
+    .text-black-500,.text-white-500,h4{
         font-weight: 500;
-        font-size: 14px;
+        font-size: 4px;
         width: auto;
     }
     .header-container{
@@ -82,18 +85,47 @@
     }
     .right-panel{
         width: 55%;
+        justify-content: flex-end;
         gap: 8px;
-        /* background-color: aqua; */
+    
     }
     .user{
         width: 80%;
         justify-content: flex-end;
         gap: 6px;
-        /* background-color: blue; */
+      
     }
     .user-icon{
         width: 27%;
         height: 100%;
+    }
+
+  } */
+  @media(max-width:500px){
+    .text-black-500,.text-white-500{
+        font-weight: 500;
+        font-size: 11px;
+        width: auto;
+    }
+    .header-container{
+        padding: 2px 10px;
+    }
+    .right-panel{
+        width: 40%;
+        justify-content: flex-end;
+        gap: 10px;
+        /* background-color: aqua; */
+    }
+    .user{
+      min-width: 100%;
+        justify-content: flex-end;
+        gap: 6px;
+        /* background-color: blue; */
+    }
+    .user-icon{
+      width: 35px;
+
+        
     }
 
   }

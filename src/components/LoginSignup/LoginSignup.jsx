@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './login.css'; // Ensure this file has your CSS styles
+import './login.css';
 import logo from '../../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import { BASE_URL } from '../../../config';
 
 const LoginForm = () => {
   const [name, setName] = useState('');
@@ -10,7 +10,6 @@ const LoginForm = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate()
-  const baseUrl = 'https://5d30-124-253-61-251.ngrok-free.app/'
 
   const handleSwitchToSignup = () => setIsSignup(true);
   const handleSwitchToLogin = () => setIsSignup(false);
@@ -20,57 +19,87 @@ const LoginForm = () => {
     handleSwitchToSignup();
   };
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
 
-    const data = { email: loginEmail };
+  const handleLoginSubmit = async(e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', loginEmail);
+    localStorage.setItem('email', JSON.stringify(loginEmail));
 
     try {
-      const response = await fetch(`${baseUrl}register_login/`, {
+      const response = await fetch(`${BASE_URL}login/`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
-      const result = await response.json();
-      console.log('response', response)
-      debugger
-
+  
+      // Check if the response was successful
       if (response.ok) {
-        // Redirect to OTP verification page or handle OTP
-        console.log('Login successful:', result);
-        navigate('getotp')
+        const data = await response.json();
+  
+        // Check the success message in the response data
+        if (data.success) {
+          // Navigate to the OTP page upon success
+          navigate('/getotp'); // Ensure you use a valid path here
+        } else {
+          // Handle error or display error message
+          console.error('Error:', data.message);
+          alert(data.message || 'An error occurred');
+        }
       } else {
-        console.error('Login failed:', result);
+        // Handle server errors
+        const errorData = await response.json(); // Parse the error response
+        console.error('Server error:', errorData.message);
+        alert('Server error occurred. Please try again later.');
       }
     } catch (error) {
-      console.error('Error:', error);
+      // Handle network errors
+      console.error('Network error:', error);
+      alert('Network error occurred. Please check your connection and try again.');
     }
+      
+  
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-  
-    const data = new FormData();
-    data.append('name', name); // Example for a name field
-    data.append('email', signupEmail); // Example for an email field
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', signupEmail);
+    localStorage.setItem('email', JSON.stringify(signupEmail));
   
     try {
-      // Make the POST request with axios
-      const response = await axios.post(`${baseUrl}register_login/`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // Optional: axios usually sets this automatically for FormData
-        },
+      const response = await fetch(`${BASE_URL}register/`, {
+        method: 'POST',
+        body: formData,
       });
   
-      console.log(response.data); // Log the response data
-      // Perform any additional logic based on the response, such as navigation
+      // Check if the response was successful
+      if (response.ok) {
+        const data = await response.json();
   
+        // Check the success message in the response data
+        if (data.success) {
+          // Navigate to the OTP page upon success
+          navigate('/getotp'); // Ensure you use a valid path here
+        } else {
+          // Handle error or display error message
+          console.error('Error:', data.message);
+          alert(data.message || 'An error occurred');
+        }
+      } else {
+        // Handle server errors
+        const errorData = await response.json(); // Parse the error response
+        console.error('Server error:', errorData.message);
+        alert('Server error occurred. Please try again later.');
+      }
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
+      // Handle network errors
+      console.error('Network error:', error);
+      alert('Network error occurred. Please check your connection and try again.');
     }
   };
+
+
 
   return (
     <div className="login-container">

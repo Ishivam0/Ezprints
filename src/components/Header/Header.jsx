@@ -6,7 +6,7 @@ import "remixicon/fonts/remixicon.css";
 
 const Header = () => {
   const [darkMode, setdarkMode] = useState(true);
-  const [username, setUsername] = useState("Shivam");
+  const [username, setUsername] = useState("sukhwinder");
   return (
     <div className={`header-container ${darkMode?'bg-black':'bg-white'}`}>
       <img className="logo" src={logo} alt="" />
@@ -17,19 +17,26 @@ const Header = () => {
             <img className="profile" src={profile} alt="" />
           </div>
         </div>
-        {darkMode ? (
+        {darkMode ? <div className="flex gap-3">
           <i
             onClick={() => setdarkMode(!darkMode)}
             style={{ fontSize: 24, color: "white" }}
             class="ri-sun-line"
           />
-        ) : (
+          <i style={{ fontSize: 24, color: "white" }} class="ri-logout-box-r-line"></i>
+        </div>
+          
+         : <div className="flex gap-3">
           <i
             onClick={() => setdarkMode(!darkMode)}
             style={{ fontSize: 24, color: "black" }}
             class="ri-moon-clear-line"
           />
-        )}
+          <i style={{ fontSize: 24, color: "black" }} class="ri-logout-box-r-line"></i>
+        </div>
+          
+        }
+        
       </div>
     </div>
   );
