@@ -6,9 +6,12 @@ import './MainLayout.css'
 import Popup from '../Popup/Popup'
 import { BASE_URL } from '../../../config'
 import { useNavigate } from 'react-router-dom'
+import LogoutModal from '../../components/Modal/LogoutModal/LogoutModal'
+import HeroSection from '../../components/HeroSection/HeroSection'
+import { useSelector } from 'react-redux'
 
 const MainLayout = () => {
-  const [isPopupOpen, setPopupOpen] = useState(false);
+ 
   const navigate = useNavigate();
 
   const handleOpenPopup = () => {
@@ -52,9 +55,9 @@ const MainLayout = () => {
   return (
    <div className='mainlayout'>
     <Header />
+    <HeroSection />
     <div className="popupdiv">
-      <button onClick={handleOpenPopup}>open</button>
-      <Popup isOpen={isPopupOpen} onclose={handleClosePopup}/>
+      <LogoutModal />
     </div>
    </div>
   )

@@ -3,6 +3,9 @@ import './login.css';
 import logo from '../../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../../config';
+import emailSent from '../../assets/animations/emailSent.json'
+import errorAnimation from '../../assets/animations/error.json'
+import Popup from '../../screens/Popup/Popup'
 
 const LoginForm = () => {
   const [name, setName] = useState('');
@@ -13,6 +16,10 @@ const LoginForm = () => {
 
   const handleSwitchToSignup = () => setIsSignup(true);
   const handleSwitchToLogin = () => setIsSignup(false);
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+
 
   const handleSignupLinkClick = (e) => {
     e.preventDefault();
@@ -37,24 +44,39 @@ const LoginForm = () => {
         const data = await response.json();
   
         // Check the success message in the response data
-        if (data.success) {
-          // Navigate to the OTP page upon success
-          navigate('/getotp'); // Ensure you use a valid path here
+        if (data.success) { 
+          setPopupContent({
+            animation: emailSent,
+            text: data.message,
+          });
+          setPopupOpen(true);
+          setTimeout(() => {
+            navigate('/getotp'); // Ensure you use a valid path here
+          }, 2000);
         } else {
-          // Handle error or display error message
-          console.error('Error:', data.message);
-          alert(data.message || 'An error occurred');
+          setPopupContent({
+            animation: errorAnimation, // Use an appropriate animation for error
+            text: data.message || 'An error occurred',
+          });
+          setPopupOpen(true);
         }
       } else {
         // Handle server errors
         const errorData = await response.json(); // Parse the error response
-        console.error('Server error:', errorData.message);
-        alert('Server error occurred. Please try again later.');
+        setPopupContent({
+          animation: errorAnimation,
+          text: 'Server error occurred. Please try again later.',
+        });
+        setPopupOpen(true);
+        console.log("Server Error:",errorData.message)
       }
     } catch (error) {
-      // Handle network errors
-      console.error('Network error:', error);
-      alert('Network error occurred. Please check your connection and try again.');
+      setPopupContent({
+        animation: errorAnimation,
+        text: 'Network error occurred. Please check your connection and try again.',
+      });
+      setPopupOpen(true);
+      console.log("error:",error)
     }
       
   
@@ -78,24 +100,39 @@ const LoginForm = () => {
         const data = await response.json();
   
         // Check the success message in the response data
-        if (data.success) {
-          // Navigate to the OTP page upon success
-          navigate('/getotp'); // Ensure you use a valid path here
+        if (data.success) { 
+          setPopupContent({
+            animation: emailSent,
+            text: data.message,
+          });
+          setPopupOpen(true);
+          setTimeout(() => {
+            navigate('/getotp'); // Ensure you use a valid path here
+          }, 2000);
         } else {
-          // Handle error or display error message
-          console.error('Error:', data.message);
-          alert(data.message || 'An error occurred');
+          setPopupContent({
+            animation: errorAnimation, // Use an appropriate animation for error
+            text: data.message || 'An error occurred',
+          });
+          setPopupOpen(true);
         }
       } else {
         // Handle server errors
         const errorData = await response.json(); // Parse the error response
-        console.error('Server error:', errorData.message);
-        alert('Server error occurred. Please try again later.');
+        setPopupContent({
+          animation: errorAnimation,
+          text: 'Server error occurred. Please try again later.',
+        });
+        setPopupOpen(true);
+        console.log("Server Error:",errorData.message)
       }
     } catch (error) {
-      // Handle network errors
-      console.error('Network error:', error);
-      alert('Network error occurred. Please check your connection and try again.');
+      setPopupContent({
+        animation: errorAnimation,
+        text: 'Network error occurred. Please check your connection and try again.',
+      });
+      setPopupOpen(true);
+      console.log("error:",error)
     }
   };
 
@@ -193,6 +230,12 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
+      <Popup
+        isOpen={isPopupOpen}
+        animation={popupContent.animation}
+        text={popupContent.text}
+        onclose={() => setPopupOpen(false)}
+      />
     </div>
   );
 };

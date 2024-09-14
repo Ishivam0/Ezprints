@@ -1,0 +1,58 @@
+/* HeroSection.css */
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-start;
+    padding: 50px;
+    background-color: #000000; /* Light background color */
+    height: auto; /* Full viewport height */
+    box-sizing: border-box;
+}
+
+.hero-text {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
+
+.hero-text h1 {
+    font-size: 3.2rem;
+    font-weight: 500;
+    margin: 0;
+    color: #1175ee; /* Dark text color */
+}
+
+.hero-text p {
+    font-size: 2.2rem;
+    margin-top: 10px;
+    color: #666; /* Lighter text color */
+}
+
+.hero-animation {
+    max-width: 50%;
+    text-align: center;
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column-reverse; /* Stack elements vertically */
+        text-align: center; /* Center text and animation */
+        height: auto; /* Adjust height for mobile */
+        padding: 20px; /* Adjust padding for mobile */
+    }
+
+    .hero-text {
+        max-width: 100%; 
+        margin-top: 20px; /* Add spacing above the text */
+    }
+
+    .hero-animation {
+        max-width: 100%; /* Ensure full width on mobile */
+        margin-bottom: 20px; /* Add spacing below the animation */
+    }
+}

@@ -3,11 +3,16 @@ import '../../components/LoginSignup/login.css'
 import logo from '../../assets/images/logo.png'
 import { BASE_URL } from '../../../config'
 import { useNavigate } from 'react-router-dom'
+import otpSuccess from '../../assets/animations/otpsuccess.json'
+import otpFailure from '../../assets/animations/otpfailure.json'
 
 const OtpScreen = () => {
   const navigate = useNavigate();
     const [otp, setOtp] = useState();
     const email = JSON.parse(localStorage.getItem('email'));
+
+    const [isPopupOpen, setPopupOpen] = useState(false);
+  const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
     const handleOtpSubmit = async(e) => {
       e.preventDefault();
       const formData = new FormData();
@@ -28,25 +33,39 @@ const OtpScreen = () => {
           
     
           // Check the success message in the response data
-          if (data.success) {
-            // Navigate to the home page upon success
-            navigate('/home'); // Ensure you use a valid path here
-            localStorage.setItem('token',JSON.stringify(data.token))
+          if (data.success) { 
+            setPopupContent({
+              animation: otpSuccess,
+              text: data.message,
+            });
+            setPopupOpen(true);
+            setTimeout(() => {
+              navigate('/home'); // Ensure you use a valid path here
+            }, 2000);
           } else {
-            // Handle error or display error message
-            console.error('Error:', data.message);
-            alert(data.message || 'An error occurred');
+            setPopupContent({
+              animation: otpFailure, // Use an appropriate animation for error
+              text: data.message || 'An error occurred',
+            });
+            setPopupOpen(true);
           }
         } else {
           // Handle server errors
           const errorData = await response.json(); // Parse the error response
-          console.log('Server error:', errorData.message);
-          alert('Server error occurred. Please try again later.');
+          setPopupContent({
+            animation: errorAnimation,
+            text: 'Server error occurred. Please try again later.',
+          });
+          setPopupOpen(true);
+          console.log("Server Error:",errorData.message)
         }
       } catch (error) {
-        // Handle network errors
-        console.error('Network error:', error);
-        alert('Network error occurred. Please check your connection and try again.');
+        setPopupContent({
+          animation: errorAnimation,
+          text: 'Network error occurred. Please check your connection and try again.',
+        });
+        setPopupOpen(true);
+        console.log("error:",error)
       }
     };
   return (

@@ -47,7 +47,8 @@
     border-radius: 50%; /* Make it a circle */
     min-width: 40px;
     width: 28%; /* Adjust size as needed */
-     /* Adjust size as needed */
+    padding: 2px;
+    
   }
   
   /* Style for the profile image */

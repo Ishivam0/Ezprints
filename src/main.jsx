@@ -1,13 +1,9 @@
-import { lazy, StrictMode, Suspense } from 'react'
+import { StrictMode} from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from 'react-router-dom'
-// import LoginForm from './components/LoginSignup/LoginSignup.jsx'
-const LoginForm = lazy(() => import('./components/LoginSignup/LoginSignup.jsx'))
-import OtpScreen from './screens/OtpScreen/OtpScreen.jsx'
-import MainLayout from './screens/MainLayout/MainLayout.jsx'
-import Preloader from './screens/Preloader/Preloader.jsx'
+import { Provider } from 'react-redux'
+import { store } from './redux/app/store.js'
 
 // const router = createBrowserRouter(
 //   createRoutesFromElements(
@@ -21,14 +17,8 @@ import Preloader from './screens/Preloader/Preloader.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <BrowserRouter>
-   <Suspense fallback={<Preloader />}>
-      <Routes>
-      <Route path='/' element={<LoginForm />}/>
-      <Route path='getotp' element={<OtpScreen />} />
-      <Route path='home' element={<MainLayout />} />
-      </Routes>
-   </Suspense>
-   </BrowserRouter>
+   <Provider store={store}>
+    <App />
+   </Provider>
   </StrictMode>,
 )
