@@ -24,8 +24,8 @@
     font-weight: 500;
     margin: 0;
     background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-text p {

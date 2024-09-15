@@ -1,18 +1,68 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../components/LoginSignup/login.css'
 import logo from '../../assets/images/logo.png'
 import { BASE_URL } from '../../../config'
 import { useNavigate } from 'react-router-dom'
 import otpSuccess from '../../assets/animations/otpsuccess.json'
 import otpFailure from '../../assets/animations/otpfailure.json'
+import errorAnimation from '../../assets/animations/error.json'
+import Popup from '../Popup/Popup'
 
 const OtpScreen = () => {
   const navigate = useNavigate();
     const [otp, setOtp] = useState();
     const email = JSON.parse(localStorage.getItem('email'));
-
     const [isPopupOpen, setPopupOpen] = useState(false);
-  const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+    const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+
+    useEffect(() => {
+      const email = localStorage.getItem('email');
+      if (!email) {
+        navigate('/');
+      }
+    }, [navigate]);
+    
+    const fetchUserDetails = async (token) => {
+      try {
+        const response = await fetch(`${BASE_URL}user_get_details/`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const userDetailsData = await response.json();
+
+          if (userDetailsData.success) {
+            localStorage.setItem('user_details', JSON.stringify(userDetailsData.user_details));
+          } else {
+            setPopupContent({
+              animation: errorAnimation,
+              text: userDetailsData.message,
+            });
+            setPopupOpen(true);
+            console.error('Error fetching user details:', userDetailsData);
+          }
+        } else {
+          setPopupContent({
+            animation: errorAnimation,
+            text: 'Server error while fetching user details',
+          });
+          setPopupOpen(true);
+          console.error('Server error while fetching user details');
+        }
+      } catch (error) {
+        setPopupContent({
+          animation: errorAnimation,
+          text: 'Network error occurred. Please check your connection and try again.',
+        });
+        setPopupOpen(true);
+        console.log('Error:', error);
+      }
+    };
+
     const handleOtpSubmit = async(e) => {
       e.preventDefault();
       const formData = new FormData();
@@ -26,32 +76,32 @@ const OtpScreen = () => {
           body: formData,
         });
     
-        // Check if the response was successful
         if (response.ok) {
-          const data = await response.json();
-          
-          
-    
-          // Check the success message in the response data
-          if (data.success) { 
+          const data = await response.json();                   
+           if (data.success) { 
+            const token = data.token
+            localStorage.setItem('token', token);
+
             setPopupContent({
               animation: otpSuccess,
               text: data.message,
             });
             setPopupOpen(true);
+
+            fetchUserDetails(token);
+
             setTimeout(() => {
-              navigate('/home'); // Ensure you use a valid path here
-            }, 2000);
+              navigate('/home'); 
+            }, 3000);
           } else {
             setPopupContent({
-              animation: otpFailure, // Use an appropriate animation for error
+              animation: otpFailure, 
               text: data.message || 'An error occurred',
             });
             setPopupOpen(true);
           }
         } else {
-          // Handle server errors
-          const errorData = await response.json(); // Parse the error response
+          const errorData = await response.json();
           setPopupContent({
             animation: errorAnimation,
             text: 'Server error occurred. Please try again later.',
@@ -93,6 +143,12 @@ const OtpScreen = () => {
        </div>
      </div>
    </div>
+   <Popup
+        isOpen={isPopupOpen}
+        animation={popupContent.animation}
+        text={popupContent.text}
+        onclose={() => setPopupOpen(false)}
+      />
   </div>
   )
 }

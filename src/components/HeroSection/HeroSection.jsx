@@ -5,11 +5,12 @@ import hello from '../../assets/animations/hello.json';
 import { useSelector } from 'react-redux';
 
 const HeroSection = () => {
-  const darkModeOn = useSelector((state)=>state.darkmode.darkModeOn)
+  const data =JSON.parse(localStorage.getItem('user_details'))
+  const name = data?.first_name;
   return (
     <section className={`hero`}>
       <div className="hero-text">
-        <h1>Hi, Shivam</h1>
+        <h1>Hi, {name}</h1>
         <p>Upload your documents seamlessly and get them printed with ease.</p>
       </div>
       <div className="hero-animation">

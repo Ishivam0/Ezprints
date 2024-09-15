@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 const ActionSection = () => {
   const [isCalculateActive, setIsCalculateActive] = useState(true);
-  const DarkModeOn = useSelector((state)=>state.darkmode.DarkModeOn)
+  const darkModeOn = useSelector((state)=>state.darkmode.darkModeOn)
 
   const handleCalculateClick = () => {
     setIsCalculateActive(true);
@@ -19,7 +19,7 @@ const ActionSection = () => {
   return (
     <div className={`action-container  `}>
       <div className={`action-wrapper `}>
-        <div className="action-controls">
+        <div className={`action-controls ${darkModeOn?"":"border-2 border-gray-400"}`}>
           <input
             type="radio"
             name="action"

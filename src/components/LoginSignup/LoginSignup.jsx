@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './login.css';
 import logo from '../../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,13 @@ const LoginForm = () => {
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home');
+    }
+  }, [navigate]);
 
 
   const handleSignupLinkClick = (e) => {
@@ -52,7 +59,7 @@ const LoginForm = () => {
           setPopupOpen(true);
           setTimeout(() => {
             navigate('/getotp'); // Ensure you use a valid path here
-          }, 2000);
+          }, 3000);
         } else {
           setPopupContent({
             animation: errorAnimation, // Use an appropriate animation for error

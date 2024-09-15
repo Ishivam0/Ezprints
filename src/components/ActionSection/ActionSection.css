@@ -37,7 +37,7 @@
   width: 100%;
   overflow: hidden;
   margin-bottom: 20px;
-  border: 1px solid #939292;
+  /* border: 1px solid #939292; */
   border-radius: 15px;
 }
 
@@ -96,7 +96,7 @@ input[type="radio"] {
 
 .title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 20px;
   color: #666;
 }

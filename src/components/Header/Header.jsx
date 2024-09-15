@@ -11,14 +11,15 @@ import Lottie from "lottie-react";
 const Header = () => {
  const darkModeOn = useSelector((state)=>state.darkmode.darkModeOn)
  const {isLogoutModalOpen} = useSelector((state)=>state.logout)
-  const [username, setUsername] = useState("sukhwinder");
+ const data = JSON.parse(localStorage.getItem('user_details'))
+ const name = data?.first_name;
   const dispatch = useDispatch();
   return (
     <div className={`header-container ${darkModeOn?'bg-black border-white border-b-2':'bg-white'}`}>
       <img className="logo" src={logo} alt="" />
       <div className="right-panel">
         <div className="user">
-          <h4 className={` ${darkModeOn?'text-white-500':'text-black-500'} `} >Hi, {username}</h4>
+          <h4 className={` ${darkModeOn?'text-white-500':'text-black-500'} `} >Hi, {name}</h4>
           <div className={`user-icon border-gray border-2`}>
             <Lottie className="profile" animationData={userprofile} autoPlay loop />
           </div>
