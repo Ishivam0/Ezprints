@@ -9,18 +9,14 @@ import { useNavigate } from 'react-router-dom'
 import LogoutModal from '../../components/Modal/LogoutModal/LogoutModal'
 import HeroSection from '../../components/HeroSection/HeroSection'
 import { useSelector } from 'react-redux'
+import ActionSection from '../../components/ActionSection/ActionSection'
 
 const MainLayout = () => {
  
   const navigate = useNavigate();
+  const darkModeOn = useSelector(state=>state.darkmode.darkModeOn)
 
-  const handleOpenPopup = () => {
-    setPopupOpen(true);
 
-  };
-  const handleClosePopup =()=>{
-    setPopupOpen(false);
-  }
   const logoutUser = async () => {
     const token = JSON.parse(localStorage.getItem('token')); // Replace with your actual token
     
@@ -53,9 +49,10 @@ const MainLayout = () => {
 
 
   return (
-   <div className='mainlayout'>
+   <div className={`mainlayout ${darkModeOn?"bg-black":"bg-white"}`}>
     <Header />
     <HeroSection />
+    <ActionSection />
     <div className="popupdiv">
       <LogoutModal />
     </div>

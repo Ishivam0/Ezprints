@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const HeroSection = () => {
   const darkModeOn = useSelector((state)=>state.darkmode.darkModeOn)
   return (
-    <section className={`hero ${darkModeOn?"bg-black":"bg-white"}`}>
+    <section className={`hero`}>
       <div className="hero-text">
         <h1>Hi, Shivam</h1>
         <p>Upload your documents seamlessly and get them printed with ease.</p>
