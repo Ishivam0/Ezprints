@@ -10,6 +10,7 @@ import LogoutModal from '../../components/Modal/LogoutModal/LogoutModal';
 import HeroSection from '../../components/HeroSection/HeroSection';
 import { useSelector } from 'react-redux';
 import ActionSection from '../../components/ActionSection/ActionSection';
+import Footer from '../../components/Footer/Footer';
 
 const MainLayout = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -29,6 +30,7 @@ const MainLayout = () => {
       <Header />
       <HeroSection />
       <ActionSection />
+      <Footer />
       <div className="popupdiv">
         <LogoutModal />
       </div>

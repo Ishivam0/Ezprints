@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import './ActionSection.css'; // Make sure to create this CSS file
 import { useSelector } from 'react-redux';
+import DocumentUploadModal from '../Modal/DocumentUploadModal/DocumentUploadModal';
+import PriceCalculator from '../PriceCalculator/PriceCalculator';
 
 const ActionSection = () => {
   const [isCalculateActive, setIsCalculateActive] = useState(true);
+  const [isPriceCalculatorOpen, setPriceCalculatorOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const darkModeOn = useSelector((state)=>state.darkmode.darkModeOn)
 
   const handleCalculateClick = () => {
     setIsCalculateActive(true);
-    // Add any additional logic for Calculate button
+   
   };
 
   const handleUploadClick = () => {
     setIsCalculateActive(false);
-    // Add any additional logic for Upload button
+  };
+
+  const uploadfile = () => {
+    setModalOpen(true); 
+  }
+
+  const openPriceCalculator = () => {
+    setPriceCalculatorOpen(true);
   };
 
   return (
@@ -54,18 +65,27 @@ const ActionSection = () => {
           {isCalculateActive ? (
             <div className="content">
               <h1 className="title">Calculate Your Print Expenses</h1>
-              <button className="action-btn">Calculate</button>
+              <button className="action-btn" id='calculate' onClick={openPriceCalculator}>Calculate</button>
             </div>
           ) : (
             <div className="content">
               <h1 className="title">Upload Your Document for Printing</h1>
-              <button className="action-btn">Upload</button>
+              <button onClick={uploadfile} className="action-btn" id='upload'>Upload</button>
             </div>
           )}
         </div>
       </div>
+      <DocumentUploadModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+      <PriceCalculator
+        isOpen={isPriceCalculatorOpen}
+        onClose={() => setPriceCalculatorOpen(false)}
+      />
     </div>
   );
 };
 
 export default ActionSection;
+

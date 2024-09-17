@@ -4,7 +4,7 @@ import Lottie from 'lottie-react';
 
 
 const Popup = ({ isOpen,animation,text,onclose }) => {
-  return (
+  if(isOpen) { return (
     <div className={`popup-overlay ${isOpen ? 'open' : ''}`}>
     <div className="popup-content">
     <div className="close" onClick={onclose}>
@@ -20,7 +20,7 @@ const Popup = ({ isOpen,animation,text,onclose }) => {
         
       </div>
     </div>
-  );
+  );}
 };
 
 export default Popup;
