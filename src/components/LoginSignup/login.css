@@ -151,13 +151,7 @@ form .field input:focus::placeholder{
 .form-inner form .signup-link a:hover{
   text-decoration: underline;
 }
-form .btn{
-  height: 50px;
-  width: 100%;
-  border-radius: 15px;
-  position: relative;
-  overflow: hidden;
-}
+
 form .btn .btn-layer{
   height: 100%;
   width: 300%;
@@ -170,6 +164,7 @@ form .btn .btn-layer{
 }
 form .btn:hover .btn-layer{
   left: 0;
+
 }
 form .btn input[type="submit"]{
   height: 100%;
@@ -185,6 +180,7 @@ form .btn input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
 }
+
 
 @media(max-width:390px){
   .wrapper{
@@ -202,4 +198,44 @@ form .btn input[type="submit"]{
       min-width: 80%;
     }
   }
+
+
+.loader {
+  width: 30px;
+  aspect-ratio: 1;
+  display: inline-grid;
+  border-radius: 50%;
+  background:
+    linear-gradient(0deg ,rgb(0 0 0/50%) 30%,#0000 0 70%,rgb(0 0 0/100%) 0) 50%/8% 100%,
+    linear-gradient(90deg,rgb(0 0 0/25%) 30%,#0000 0 70%,rgb(0 0 0/75% ) 0) 50%/100% 8%;
+  background-repeat: no-repeat;
+  animation: l23 1s infinite steps(12);
+}
+.loader::before,
+.loader::after {
+   content: "";
+   grid-area: 1/1;
+   border-radius: 50%;
+   background: inherit;
+   opacity: 0.915;
+   transform: rotate(30deg);
+}
+.loader::after {
+   opacity: 0.83;
+   transform: rotate(60deg);
+}
+@keyframes l23 {
+  100% {transform: rotate(1turn)}
+}
+
+form .btn {
+  height: 50px;
+  width: 100%;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
 

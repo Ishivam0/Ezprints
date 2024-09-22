@@ -12,6 +12,7 @@ const LoginForm = () => {
   const [signupEmail, setSignupEmail] = useState('');
   const [loginEmail, setLoginEmail] = useState('');
   const [isSignup, setIsSignup] = useState(false);
+  const [loading, setloading] = useState(false);
   const navigate = useNavigate()
 
   const handleSwitchToSignup = () => setIsSignup(true);
@@ -36,6 +37,7 @@ const LoginForm = () => {
 
   const handleLoginSubmit = async(e) => {
     e.preventDefault();
+    setloading(true);
     const formData = new FormData();
     formData.append('email', loginEmail);
     localStorage.setItem('email', JSON.stringify(loginEmail));
@@ -84,6 +86,8 @@ const LoginForm = () => {
       });
       setPopupOpen(true);
       console.log("error:",error)
+    }finally{
+      setloading(false);
     }
       
   
@@ -91,6 +95,7 @@ const LoginForm = () => {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    setloading(true);
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', signupEmail);
@@ -140,6 +145,8 @@ const LoginForm = () => {
       });
       setPopupOpen(true);
       console.log("error:",error)
+    }finally{
+      setloading(false);
     }
   };
 
@@ -200,7 +207,8 @@ const LoginForm = () => {
                 </div>
                 <div className="field btn">
                   <div className="btn-layer"></div>
-                  <input type="submit" value="Login" />
+                  {loading? <div class="loader"></div> : <input type="submit" value="Login" />}
+                  
                 </div>
                 <div className="signup-link">
                   Not a member? <a href="#" onClick={handleSignupLinkClick}>Signup now</a>
@@ -230,7 +238,8 @@ const LoginForm = () => {
                 </div>
                 <div className="field btn">
                   <div className="btn-layer"></div>
-                  <input type="submit" value="Signup" />
+                  {loading?<div className='loader'></div> : <input type="submit" value="Signup" />}
+                  
                 </div>
               </form>
             )}
