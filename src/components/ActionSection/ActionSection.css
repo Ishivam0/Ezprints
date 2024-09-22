@@ -52,6 +52,7 @@
   z-index: 1;
   transition: all 0.6s ease;
   background: #fff;
+  text-align: center;
 }
 
 .action-controls .action-button.active {
