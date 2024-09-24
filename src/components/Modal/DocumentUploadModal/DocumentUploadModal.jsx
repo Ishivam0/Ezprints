@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './DocumentUploadModal.css';
 import { PDFDocument } from 'pdf-lib';
-import html2canvas from 'html2canvas';
+
 import { BASE_URL } from '../../../../config';
 import { useSelector } from 'react-redux';
 import errorAnimation from '../../../assets/animations/error.json'
 import uploaded from '../../../assets/animations/uploaded.json'
 import uploading from '../../../assets/animations/uploading.json'
 import Popup from '../../../screens/Popup/Popup';
+
+
 
 const DocumentUploadModal = ({ isOpen, onClose }) => {
   const [colorMode, setColorMode] = useState('black-and-white');
@@ -18,17 +20,31 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const darkModeOn = useSelector(state => state.darkmode.darkModeOn)
   const [isPopupOpen, setPopupOpen] = useState(false);
-    const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+  const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
 
+ 
+ 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
 
+    return () => {
+      
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleBWClick = () => {
     setIsBWActive(true);
+    setColorMode('black-and-white');
    
   };
 
   const handleColoredClick = () => {
     setIsBWActive(false);
+    setColorMode('colored');
   };
 
 
@@ -88,6 +104,86 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
       image.onerror = (error) => reject(error);
     });
   };
+
+  const handlePayment = async (printId) => {
+    try {
+        const response = await fetch(`${BASE_URL}payments/create_order/`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `print_job_id=${printId}`
+        });
+
+        const orderData = await response.json();
+        if (response.status === 200 && orderData.success) {
+            const options = {
+                key: 'rzp_test_ew74Ktx27rLLPC', 
+                amount: orderData.amount, 
+                currency: orderData.currency,
+                name: "Print Service",
+                description: "Payment for print job",
+                order_id: orderData.order_id,
+                handler: function (response) {
+                    verifyPayment(response);
+                },
+                prefill: {
+                    name: "Dhruv",
+                    email: "dhruv@example.com",
+                },
+                theme: {
+                    color: "#3399cc"
+                }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }else {
+            throw new Error(data.message || 'Payment Failed');
+          }
+    } catch (error) {
+        console.log("Payment Error",error);
+    }
+};
+
+const verifyPayment = async (paymentDetails) => {
+    try {
+        const response = await fetch(`${BASE_URL}payments/verify_order/`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `razorpay_payment_id=${paymentDetails.razorpay_payment_id}&razorpay_order_id=${paymentDetails.razorpay_order_id}&razorpay_signature=${paymentDetails.razorpay_signature}`
+        });
+        
+        const verificationData = await response.json();
+        if(verificationData.success){
+
+        setPopupOpen(false);   
+        setPopupContent({
+          animation: uploaded, // Show success animation
+          text: verificationData.message,
+        });
+  
+        setUploadSuccess(true);
+        setTimeout(() => {
+          setPopupOpen(true); // Show success popup
+        }, 200); // A slight delay to ensure the loading closes first
+
+        setTimeout(() => {
+            
+            setPopupOpen(false);
+          }, 3000);
+        }else{
+          console.log("Payment verification failed",verificationData.message);
+        }
+    } catch (error) {
+        console.log("Payment verification error",error);
+    }finally{
+      setTimeout(() => {
+        onClose();
+      }, 4000);
+    }
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -153,27 +249,13 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
       if (response.status === 201 && data.success) {
         // Hide the loading animation and show success animation
         setIsLoading(false);
-        setPopupContent({
-          animation: uploaded, // Show success animation
-          text: data.message,
-        });
-  
-        setUploadSuccess(true);
-        setTimeout(() => {
-          setPopupOpen(true); // Show success popup
-        }, 200); // A slight delay to ensure the loading closes first
-
-        setTimeout(() => {
-            
-            setPopupOpen(false);
-          }, 3000);
-        
+      
         const printId = data.print_job_id;
-        localStorage.setItem('printid', JSON.stringify(printId));
+        handlePayment(printId);
   
-        // Reset file inputs
         setFiles([]);
         setCopies([]);
+        
         
       } else {
         throw new Error(data.message || 'Failed to upload document');
@@ -188,8 +270,13 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
       });
       setPopupOpen(true);
     } finally {
-      // Always stop the loading spinner once the operation finishes
+
+      // setTimeout(() => {
+            
+      //   onClose();
+      // }, 4000);
       setIsLoading(false);
+      
     }
   };
   
@@ -283,10 +370,20 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
               </div>
             ))}
           </div>
-          {files.length >0 && <button type="submit" className="submit-button mt-4 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-md">
-                Submit
-            </button>}
+          {files.length >0 && <div className='flex flex-col gap-1 btndiv items-center'>
+            <button type="submit" className="submit-button mt-4 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-md">
+                Pay with UPI
+            </button>
+            <h4>OR</h4>
+            <div className='flex flex-col items-center counterdiv'>
+            <buton className='counterbtn'>Pay at Counter</buton>
+            <h5>(currently unavailable)</h5>
+            </div>
             
+            
+            
+          </div> }
+          
         </form>
       </div>
     </div>

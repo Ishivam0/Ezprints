@@ -28,7 +28,7 @@
   }
 
   .modal-content {
-    background: #ebeaea;
+    background: #c6c5c5;
     padding: 20px 10px;
     border-radius: 8px;
     width: 100%;
@@ -127,6 +127,7 @@
     background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
     color: white;
     border: none;
+    width: 90%;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -135,9 +136,25 @@
   .submit-button:hover {
     background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
   }
+  .counterdiv{
+    width: 90%;
+    color: gray;
+    background-color:transparent;
+    gap: 4px;
+  }
   
+  .counterbtn{
+    border: 1px solid gray ;
+    width: 100%;
+    text-align: center;
+    padding: 5px 20px;
+    border-radius: 4px;
+  }
+  .counterdiv h5{
+    font-size: 10px;
+    color: red;
+  }
 
-  /* DocumentUploadModal.css */
 
 /* File Input Styles */
 .file-input {
@@ -168,3 +185,4 @@
     align-items: center;
     font-size: 11px;
   }
+  
