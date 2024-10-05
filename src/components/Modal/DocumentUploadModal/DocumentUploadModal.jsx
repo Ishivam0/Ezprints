@@ -19,10 +19,8 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
   const [copies, setCopies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const darkModeOn = useSelector(state => state.darkmode.darkModeOn)
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
-  const [printId, setprintId] = useState(0);
 
   const navigate = useNavigate();
  
@@ -255,7 +253,6 @@ const verifyPayment = async (paymentDetails) => {
         setIsLoading(false);
       
         const printid = data.print_job_id;
-        setprintId(printid);
         handlePayment(printid);
   
         setFiles([]);
@@ -293,7 +290,7 @@ const verifyPayment = async (paymentDetails) => {
     <div className="modal-overlay">
     <div className="modal-layout">
       <div className="close" onClick={onClose}>
-        <i className="ri-close-circle-line" style={{ fontSize: 27, color: `${darkModeOn?"white":"black"}` }} />
+        <i className="ri-close-circle-line" style={{ fontSize: 27, color: "white" }} />
       </div>
       <div className="modal-content">
         {isLoading && (
