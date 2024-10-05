@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './DocumentUploadModal.css';
 import { PDFDocument } from 'pdf-lib';
-
+// import logo from '../../../assets/images/logo2.jpg'
 import { BASE_URL } from '../../../../config';
-import { useSelector } from 'react-redux';
 import errorAnimation from '../../../assets/animations/error.json'
 import uploaded from '../../../assets/animations/uploaded.json'
 import uploading from '../../../assets/animations/uploading.json'
@@ -50,8 +49,8 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
-    setFiles(newFiles);
-    setCopies(newFiles.map(() => 1));
+    setFiles((prevFiles) => [...newFiles,...prevFiles]);
+    setCopies((prevCopies) => [...newFiles.map(() => 1),...prevCopies]);
   };
 
   const handleCopyChange = (index, value) => {
@@ -121,12 +120,19 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
                 key: 'rzp_test_ew74Ktx27rLLPC', 
                 amount: orderData.amount, 
                 currency: orderData.currency,
-                name: "Print Service",
+                name: "EZ Prints",
                 description: "Payment for print job",
+                // image:logo,
                 order_id: orderData.order_id,
                 handler: function (response) {
                     verifyPayment(response);
                 },
+                modal: {
+                  ondismiss: function() {
+                      onClose();
+                      setPopupOpen(false);
+                  },
+              },
                 prefill: {
                     name: "Dhruv",
                     email: "dhruv@example.com",
@@ -138,7 +144,7 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
             const rzp = new Razorpay(options);
             rzp.open();
         }else {
-            throw new Error(data.message || 'Payment Failed');
+            throw new Error(orderData.message || 'Payment Failed');
           }
     } catch (error) {
         console.log("Payment Error",error);
@@ -272,11 +278,6 @@ const verifyPayment = async (paymentDetails) => {
       });
       setPopupOpen(true);
     } finally {
-
-      // setTimeout(() => {
-            
-      //   onClose();
-      // }, 4000);
       setIsLoading(false);
       
     }
