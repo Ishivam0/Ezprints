@@ -8,6 +8,7 @@ import errorAnimation from '../../../assets/animations/error.json'
 import uploaded from '../../../assets/animations/uploaded.json'
 import uploading from '../../../assets/animations/uploading.json'
 import Popup from '../../../screens/Popup/Popup';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,8 +22,9 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
   const darkModeOn = useSelector(state => state.darkmode.darkModeOn)
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
+  const [printId, setprintId] = useState(0);
 
- 
+  const navigate = useNavigate();
  
   useEffect(() => {
     const script = document.createElement('script');
@@ -172,7 +174,9 @@ const verifyPayment = async (paymentDetails) => {
         setTimeout(() => {
             
             setPopupOpen(false);
+        
           }, 3000);
+
         }else{
           console.log("Payment verification failed",verificationData.message);
         }
@@ -250,8 +254,9 @@ const verifyPayment = async (paymentDetails) => {
         // Hide the loading animation and show success animation
         setIsLoading(false);
       
-        const printId = data.print_job_id;
-        handlePayment(printId);
+        const printid = data.print_job_id;
+        setprintId(printid);
+        handlePayment(printid);
   
         setFiles([]);
         setCopies([]);
