@@ -379,7 +379,7 @@ const verifyPayment = async (paymentDetails) => {
             </button>
             <h4>OR</h4>
             <div className='flex flex-col items-center counterdiv'>
-            <buton className='counterbtn'>Pay at Counter</buton>
+            <button className='counterbtn'>Pay at Counter</button>
             <h5>(currently unavailable)</h5>
             </div>
             
