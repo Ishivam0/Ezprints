@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './DocumentUploadModal.css';
 import { PDFDocument } from 'pdf-lib';
-// import logo from '../../../assets/images/logo2.jpg'
 import { BASE_URL } from '../../../../config';
 import errorAnimation from '../../../assets/animations/error.json'
 import uploaded from '../../../assets/animations/uploaded.json'
@@ -122,7 +121,7 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
                 currency: orderData.currency,
                 name: "EZ Prints",
                 description: "Payment for print job",
-                // image:logo,
+                image: "https://developers.ntftravel.com/media/images/logo2.jpg",
                 order_id: orderData.order_id,
                 handler: function (response) {
                     verifyPayment(response);
