@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './DocumentUploadModal.css';
 import { PDFDocument } from 'pdf-lib';
-
+// import logo from '../../../assets/images/logo2.jpg'
 import { BASE_URL } from '../../../../config';
-import { useSelector } from 'react-redux';
 import errorAnimation from '../../../assets/animations/error.json'
 import uploaded from '../../../assets/animations/uploaded.json'
 import uploading from '../../../assets/animations/uploading.json'
 import Popup from '../../../screens/Popup/Popup';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -18,11 +18,10 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
   const [copies, setCopies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const darkModeOn = useSelector(state => state.darkmode.darkModeOn)
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState({ animation: null, text: '' });
 
- 
+  const navigate = useNavigate();
  
   useEffect(() => {
     const script = document.createElement('script');
@@ -50,8 +49,8 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
-    setFiles(newFiles);
-    setCopies(newFiles.map(() => 1));
+    setFiles((prevFiles) => [...newFiles,...prevFiles]);
+    setCopies((prevCopies) => [...newFiles.map(() => 1),...prevCopies]);
   };
 
   const handleCopyChange = (index, value) => {
@@ -121,12 +120,19 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
                 key: 'rzp_test_ew74Ktx27rLLPC', 
                 amount: orderData.amount, 
                 currency: orderData.currency,
-                name: "Print Service",
+                name: "EZ Prints",
                 description: "Payment for print job",
+                // image:logo,
                 order_id: orderData.order_id,
                 handler: function (response) {
                     verifyPayment(response);
                 },
+                modal: {
+                  ondismiss: function() {
+                      onClose();
+                      setPopupOpen(false);
+                  },
+              },
                 prefill: {
                     name: "Dhruv",
                     email: "dhruv@example.com",
@@ -138,7 +144,7 @@ const DocumentUploadModal = ({ isOpen, onClose }) => {
             const rzp = new Razorpay(options);
             rzp.open();
         }else {
-            throw new Error(data.message || 'Payment Failed');
+            throw new Error(orderData.message || 'Payment Failed');
           }
     } catch (error) {
         console.log("Payment Error",error);
@@ -172,7 +178,9 @@ const verifyPayment = async (paymentDetails) => {
         setTimeout(() => {
             
             setPopupOpen(false);
+        
           }, 3000);
+
         }else{
           console.log("Payment verification failed",verificationData.message);
         }
@@ -250,8 +258,8 @@ const verifyPayment = async (paymentDetails) => {
         // Hide the loading animation and show success animation
         setIsLoading(false);
       
-        const printId = data.print_job_id;
-        handlePayment(printId);
+        const printid = data.print_job_id;
+        handlePayment(printid);
   
         setFiles([]);
         setCopies([]);
@@ -270,11 +278,6 @@ const verifyPayment = async (paymentDetails) => {
       });
       setPopupOpen(true);
     } finally {
-
-      // setTimeout(() => {
-            
-      //   onClose();
-      // }, 4000);
       setIsLoading(false);
       
     }
@@ -288,7 +291,7 @@ const verifyPayment = async (paymentDetails) => {
     <div className="modal-overlay">
     <div className="modal-layout">
       <div className="close" onClick={onClose}>
-        <i className="ri-close-circle-line" style={{ fontSize: 27, color: `${darkModeOn?"white":"black"}` }} />
+        <i className="ri-close-circle-line" style={{ fontSize: 27, color: "white" }} />
       </div>
       <div className="modal-content">
         {isLoading && (
@@ -376,7 +379,7 @@ const verifyPayment = async (paymentDetails) => {
             </button>
             <h4>OR</h4>
             <div className='flex flex-col items-center counterdiv'>
-            <buton className='counterbtn'>Pay at Counter</buton>
+            <button className='counterbtn'>Pay at Counter</button>
             <h5>(currently unavailable)</h5>
             </div>
             

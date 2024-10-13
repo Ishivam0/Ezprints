@@ -6,7 +6,6 @@ const PriceCalculator = ({ isOpen, onClose }) => {
   // States to store selected options and page count
   const [pages, setPages] = useState(50);
   const [isBWActive, setIsBWActive] = useState(true);
-  const darkModeOn = useSelector(state => state.darkmode.darkModeOn)
 
   // Rates per page
   const colorRate = 5;
@@ -40,9 +39,9 @@ const PriceCalculator = ({ isOpen, onClose }) => {
     <div className="modal-overlay">
         <div className="modal-layout-cal">
         <div className="close" onClick={onClose}>
-        <i className="ri-close-circle-line" style={{ fontSize: 27, color: `${darkModeOn?"white":"black"}` }} />
+        <i className="ri-close-circle-line" style={{ fontSize: 27, color: "white" }} />
       </div>
-                  <div className="modal-content-cal">
+    <div className="modal-content-cal">
     <div className="calculator-container">
       <h2>Estimate Your Printing Cost</h2>
       <div className={`action-controls`}>

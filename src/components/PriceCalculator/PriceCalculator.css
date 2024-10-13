@@ -56,21 +56,20 @@
     padding: 20px 10px;
     border-radius: 8px;
     width: 90%;
-    max-width: 600px;
+    max-width: 450px;
   }
   .modal-content-cal {
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 8px;
     width: 100%;
     
   }
 
-  .close-button{
+  .close{
     position: absolute;
     right: 0;
     top: 0;
     cursor: pointer;
-    /* background-color: #000; */
   }
 
   .action-controls {
