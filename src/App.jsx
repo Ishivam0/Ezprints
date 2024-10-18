@@ -14,7 +14,6 @@ function App() {
     <BrowserRouter>
    <Suspense fallback={<Preloader />}>
       <MainWebsiteRoutes />
-      {/* <AdminPanelRoutes /> */}
    </Suspense>
    </BrowserRouter>
   )

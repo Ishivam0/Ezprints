@@ -34,6 +34,11 @@ const LoginForm = () => {
     handleSwitchToSignup();
   };
 
+  const handleLoginLinkClick = (e) => {
+    e.preventDefault();
+    handleSwitchToLogin();
+  };
+
 
   const handleLoginSubmit = async(e) => {
     e.preventDefault();
@@ -240,6 +245,9 @@ const LoginForm = () => {
                   <div className="btn-layer"></div>
                   {loading?<div className='loader'></div> : <input type="submit" value="Signup" />}
                   
+                </div>
+                <div className="signup-link">
+                  Already a member? <a href="#" onClick={handleLoginLinkClick}>Login now</a>
                 </div>
               </form>
             )}

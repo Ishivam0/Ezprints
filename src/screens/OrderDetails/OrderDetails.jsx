@@ -99,7 +99,7 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className='homebtn' onClick={navigate('/home')}>
+            <div className='homebtn' onClick={() => navigate('/home')}>
                 <h4>Back to home</h4>
             </div>
         </div>
