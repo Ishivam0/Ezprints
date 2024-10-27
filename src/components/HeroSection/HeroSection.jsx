@@ -1,7 +1,7 @@
 import React from 'react';
 import './HeroSection.css'; // Import the CSS file
 import Lottie from 'lottie-react';
-import hello from '../../assets/animations/hello.json'; 
+import hello from '../../assets/animations/Hello.json'; 
 import { useSelector } from 'react-redux';
 
 const HeroSection = () => {
